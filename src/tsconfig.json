@@ -2,7 +2,7 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "lib": [
-      "es5",
+      "es6",
       "dom"
     ],
     "module": "commonjs",

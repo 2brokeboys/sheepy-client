@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="draggable" *ngIf="!env.website">
+<mat-toolbar color="primary" class="draggable">
   <span>Sheepy Shepard</span>
   <span class="fill-remaining"></span>
   <button mat-icon-button (click)="minimize()" #tooltip="matTooltip" matTooltip="Minimieren" matToolTipPosition="below">
@@ -10,10 +10,6 @@
   <button mat-icon-button (click)="close()" #tooltip="matTooltip" matTooltip="Schließen" matToolTipPosition="below">
     <mat-icon svgIcon="close"></mat-icon>
   </button>
-</mat-toolbar>
-<mat-toolbar color="primary" *ngIf="env.website">
-  <span>Sheepy Shepard</span>
-  <span class="fill-remaining"></span>
 </mat-toolbar>
 
 <router-outlet></router-outlet>

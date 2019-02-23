@@ -2,44 +2,18 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav, MatIconRegistry } from '@angular/material';
 import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
-import { env, Environment } from '../environment';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  templateUrl: './app.website.component.html',
   styleUrls: ['./app.component.less'],
 })
 export class AppComponent {
-
-  env: Environment = env;
 
   constructor(private router: Router,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer) {
     this.registerSvgIcons();
-  }
-
-  // Used for desktop application
-  close(): void {
-    if (!env.website) require('electron').remote.getCurrentWindow().close();
-  }
-
-  minimize(): void {
-    if (!env.website) require('electron').remote.getCurrentWindow().minimize();
-  }
-
-  isMaximized(): boolean {
-    return env.website ? true : require('electron').remote.getCurrentWindow().isMaximized();
-  }
-
-  maximize(): void {
-    if (!env.website) {
-      this.isMaximized() ? require('electron').remote.getCurrentWindow().unmaximize() : require('electron').remote.getCurrentWindow().maximize();
-    }
-  }
-
-  hasSession(): boolean {
-    return true; // Insert code here.
   }
 
   registerSvgIcons() {

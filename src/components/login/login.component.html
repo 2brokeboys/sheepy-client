@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-toolbar color="primary">
+    <span>Anmelden</span>
+  </mat-toolbar>
+  <mat-card-content>
+    <form>
+    <div class="form">
+      <mat-form-field>
+        <input matInput #username placeholder="Benutzername" type="text">
+      </mat-form-field>
+      <br>
+      <mat-form-field>
+        <input matInput #password placeholder="Passwort" type="password" (keypress)="submitLogin($event)">
+      </mat-form-field>
+      <div class="button-container">
+        <button [disabled]="loadingURL" mat-button class="submit-button button" (click)="submitLogin($event)">Anmelden</button>
+      </div>
+    </div>
+    </form>
+  </mat-card-content>
+</mat-card>

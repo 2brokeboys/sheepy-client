@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "lib": [
+      "es5",
+      "dom"
+    ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "types": [
+      "core-js",
+      "hammerjs",
+      "node"
+    ]
+  },
+  "filesGlob": [
+    "src/**/*.ts",
+    "!src/electron"
+  ]
+}

@@ -32,7 +32,7 @@ export class LoginComponent {
     if (this.username && this.password && this.username.nativeElement.value && this.password.nativeElement.value) {
       this.loadingURL = true;
       this.backend.sendLoginData(this.username.nativeElement.value, this.password.nativeElement.value).subscribe(res => {
-        if (res.status != 200 && res.status != 409) {
+        if (res.status != 200) {
           this.snackBar.open("Der Benutzername oder das Passwort ist falsch.", "Bitte erneut versuchen!", { duration: 3000 });
           this.loadingURL = false;
           return;

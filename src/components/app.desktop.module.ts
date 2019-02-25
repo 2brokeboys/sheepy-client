@@ -16,6 +16,7 @@ import { AppRoutingModule } from './router.module';
 import { AppComponent } from './app.desktop.component';
 import { LoginComponent } from './login/login.component';
 import { CreateGameComponent } from './create-game/create-game.component';
+import { SubmitGameComponent, GameTypeToArray } from './submit-game/submit-game.component';
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 
 import { BackendService } from '../services/backend.service';
@@ -25,6 +26,8 @@ import { SessionService } from '../services/session.service';
   declarations: [
     AppComponent,
     LoginComponent,
+    GameTypeToArray,
+    SubmitGameComponent,
     CreateGameComponent,
     PageNotFoundComponent
   ],
@@ -42,6 +45,7 @@ import { SessionService } from '../services/session.service';
   providers: [
     BackendService,
     SessionService,
+    GameTypeToArray
   ],
   bootstrap: [AppComponent]
 })

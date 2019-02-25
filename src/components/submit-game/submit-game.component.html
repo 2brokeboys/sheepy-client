@@ -1,0 +1,54 @@
+<mat-card>
+  <mat-toolbar color="primary">
+    <span>Spiel erstellen</span>
+  </mat-toolbar>
+  <mat-card-content>
+    <div class="form">
+      <mat-form-field>
+        <mat-autocomplete #playerAutocomplete="matAutocomplete">
+            <mat-option *ngFor="let user of players" [value]="user.username">
+              <!--<img [src]="user.image" height="25">-->
+              <span>{{ user.name }}</span> | 
+              <small>@{{ user.username }}</small>
+            </mat-option>
+        </mat-autocomplete>
+        <mat-autocomplete #playmateAutocomplete="matAutocomplete">
+          <mat-option value="Kein Mitspieler">Kein Mitspieler</mat-option>
+          <mat-option *ngFor="let user of players" [value]="user.username">
+            <!--<img [src]="user.image" height="25">-->
+            <span>{{ user.name }}</span> | 
+            <small>@{{ user.username }}</small>
+          </mat-option>
+        </mat-autocomplete>
+        <mat-autocomplete #gameTypeAutocomplete="matAutocomplete">
+          <mat-option *ngFor="let gameType of GameType | gameTypeToArray" [value]="gameType">
+            <!--<img [src]="user.image" height="25">-->
+            <span>{{ gameType }}</span> 
+          </mat-option>
+        </mat-autocomplete>
+        <input #player matInput placeholder="Spieler" [matAutocomplete]="playerAutocomplete">
+      </mat-form-field>
+      <mat-form-field>
+        <input #playmate matInput placeholder="Mitspieler" [matAutocomplete]="playmateAutocomplete">
+      </mat-form-field>
+      <mat-form-field>
+        <input #gameType matInput placeholder="Spieltyp" [matAutocomplete]="gameTypeAutocomplete">
+      </mat-form-field>
+      <mat-slide-toggle #schwarz [disabled]="gameType.value != 'Ramsch'">Schwarz gespielt</mat-slide-toggle>
+      <br>
+      <mat-form-field>
+        <input #points [disabled]="schwarz.checked" type="number" min="0" max="120" matInput placeholder="Punkte">
+      </mat-form-field>
+      <mat-form-field>
+        <input [disabled]="gameType.value != 'Ramsch'" #runners type="number" min="1" max="14" matInput placeholder="Laufende">
+      </mat-form-field>
+      <mat-form-field>
+        <input [disabled]="runners.value == 'Ramsch'" #virgins type="number" min="1" max="4" matInput placeholder="Anzahl Jungfrauen">
+      </mat-form-field>
+
+      <div class="button-container">
+        <button mat-button class="submit-button button" (click)="submitGame(player, playmate, gameType, schwarz, points, runners, virgins)">Spieldaten absenden</button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

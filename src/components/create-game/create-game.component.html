@@ -12,16 +12,16 @@
               <small>@{{ user.username }}</small>
             </mat-option>
           </mat-autocomplete>
-        <input #player1 matInput placeholder="Spieler 1" [matAutocomplete]="usersAutocomplete">
+        <input #player1 matInput placeholder="Spieler 1" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
       </mat-form-field>
       <mat-form-field>
-        <input #player2 matInput placeholder="Spieler 2" [matAutocomplete]="usersAutocomplete">
+        <input #player2 matInput placeholder="Spieler 2" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
       </mat-form-field>
       <mat-form-field>
-        <input #player3 matInput placeholder="Spieler 3" [matAutocomplete]="usersAutocomplete">
+        <input #player3 matInput placeholder="Spieler 3" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
       </mat-form-field>
       <mat-form-field>
-        <input #player4 matInput placeholder="Spieler 4" [matAutocomplete]="usersAutocomplete">
+        <input #player4 matInput placeholder="Spieler 4" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
       </mat-form-field>
 
       <div class="button-container">

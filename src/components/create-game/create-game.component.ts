@@ -3,6 +3,8 @@ import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 
 import { User } from '../../datatypes/datatypes';
+
+import { SessionService } from '../../services/session.service';
 import { BackendService } from '../../services/backend.service';
 
 @Component({
@@ -12,11 +14,11 @@ import { BackendService } from '../../services/backend.service';
 })
 export class CreateGameComponent {
 
-  users: User[] = [{ id: 1, name: "Paul der geile Hengst", username: "HappyDayHunter"}, { id: 2, name: "Just", username: "us"}];
+  users: User[] = [];
   players: User[];
   
-  constructor(private snackBar: MatSnackBar, private backend: BackendService, private router: Router) {
-    //this.backend.getUsers().subscribe(users => this.users = users);
+  constructor(private snackBar: MatSnackBar, private session: SessionService, private backend: BackendService, private router: Router) {
+    this.users = this.session.getUsers('');
   }
 
   createGame(player1, player2, player3, player4) {
@@ -25,8 +27,17 @@ export class CreateGameComponent {
           this.users.filter(player => player.username == player2.value)[0], 
           this.users.filter(player => player.username == player3.value)[0], 
           this.users.filter(player => player.username == player4.value)[0]];
+      this.session.setPlayers(this.players);
+      this.router.navigate(['/submit-game']);
     } else {
-      this.snackBar.open("Fuck you bastard. Give me all your information.");
+      this.snackBar.open("Bitte füllen Sie alle Felder aus.");
     }
+  }
+
+  userChange(searchString: string) {
+    console.log(123)
+    this.backend.getUsers(searchString).subscribe(users => console.log(users));
+    if (this.session.getUsers(searchString).length < 10) this.backend.getUsers(searchString).subscribe(users => this.session.setUsers(users));
+    this.users = this.session.getUsers(searchString);
   }
 }

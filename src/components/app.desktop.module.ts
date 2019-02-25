@@ -19,6 +19,7 @@ import { CreateGameComponent } from './create-game/create-game.component';
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 
 import { BackendService } from '../services/backend.service';
+import { SessionService } from '../services/session.service';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { BackendService } from '../services/backend.service';
   ],
   providers: [
     BackendService,
+    SessionService,
   ],
   bootstrap: [AppComponent]
 })

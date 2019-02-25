@@ -1,14 +1,14 @@
 // GameTypes that could be played
 export enum GameType {
-  SauGras,
-  SauSchell,
-  SauEichel,
-  SoloHerz,
-  SoloGras,
-  SoloSchell,
-  SoloEichel,
-  Wenz,
-  Ramsch
+  "Sauspiel Gras",
+  "Sauspiel Schell",
+  "Sauspiel Eichel",
+  "Solo Herz",
+  "Solo Gras",
+  "Solo Schell",
+  "Solo Eichel",
+  "Wenz",
+  "Ramsch"
 }
 
 // Game represents one game played
@@ -18,6 +18,8 @@ export interface Game {
   playmate: number;
 
   gameType: GameType;
+  virgins: number;
+  runners: number;
   points: number;
   schwarz: boolean;
 }

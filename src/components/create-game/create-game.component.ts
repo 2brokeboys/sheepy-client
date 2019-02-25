@@ -21,7 +21,8 @@ export class CreateGameComponent {
     this.users = this.session.getUsers('');
   }
 
-  createGame(player1, player2, player3, player4) {
+  /** Creates game with given players */
+  createGame(player1, player2, player3, player4): void {
     if (player1 && player2 && player3 && player4 && player1.value && player2.value && player3.value && player4.value) {
       this.players = [this.users.filter(player => player.username == player1.value)[0], 
           this.users.filter(player => player.username == player2.value)[0], 
@@ -34,10 +35,7 @@ export class CreateGameComponent {
     }
   }
 
-  userChange(searchString: string) {
-    console.log(123)
-    this.backend.getUsers(searchString).subscribe(users => console.log(users));
-    if (this.session.getUsers(searchString).length < 10) this.backend.getUsers(searchString).subscribe(users => this.session.setUsers(users));
+  userChange(searchString: string): void {
     this.users = this.session.getUsers(searchString);
   }
 }

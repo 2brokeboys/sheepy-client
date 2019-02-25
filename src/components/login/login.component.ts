@@ -41,8 +41,9 @@ export class LoginComponent {
         this.router.navigate(['/create-game']);
       });
       return;
+    } else {
+      this.snackBar.open('Sie haben keine Benutzerdaten eingegeben!', 'Bitte erneut versuchen!', { duration: 3000 });
+      this.loadingURL = false;
     }
-    this.snackBar.open('Sie haben keine Benutzerdaten eingegeben!', 'Bitte erneut versuchen!', { duration: 3000 });
-    this.loadingURL = false;
   }
 }

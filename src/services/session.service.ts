@@ -1,12 +1,16 @@
+import { Injectable } from '@angular/core';
 import { User } from '../datatypes/datatypes';
 
+import { BackendService } from './backend.service';
+
+@Injectable()
 export class SessionService {
 
   players: User[] = [];
   users: User[] = [];
   loggedInUser: User;
 
-  constructor() { }
+  constructor(private backend: BackendService) { }
 
   /** Returns the currently playing players */
   getPlayers(): User[] {
@@ -22,7 +26,7 @@ export class SessionService {
    * Sets the session data for the current session
    * @param loggedInUser Currently logged in user
    */
-  openSession(loggedInUser: User) {
+  openSession(loggedInUser: User): void {
     this.loggedInUser = loggedInUser;
   }
 
@@ -31,8 +35,9 @@ export class SessionService {
    * @param users Users that are currently found
    */
   setUsers(users: User[]): void {
+    if (!users) users = [];
     for (let user of users) {
-      if (this.users.indexOf(user) !== -1) this.users.push(user);
+      if (this.users.indexOf(user) === -1) this.users.push(user);
     }
   }
 
@@ -49,7 +54,14 @@ export class SessionService {
       }
       if (user.name.includes(searchString)) u.push(user);
     }
-    return u;
+    if (u.length < 5) {
+      this.backend.getUsers(searchString).subscribe(res => {
+        this.setUsers(res.users);
+        return u;
+      });
+    } else {
+      return u;
+    }
   }
 
   setPlayers(players: User[]): void {

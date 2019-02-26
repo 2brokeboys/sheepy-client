@@ -1,7 +1,7 @@
-<mat-card>
-  <mat-toolbar color="primary">
+<mat-toolbar color="primary">
     <span>Spiel erstellen</span>
-  </mat-toolbar>
+</mat-toolbar>
+<mat-card>
   <mat-card-content>
     <div class="form">
       <mat-form-field>
@@ -12,20 +12,20 @@
               <small>@{{ user.username }}</small>
             </mat-option>
           </mat-autocomplete>
-        <input #player1 matInput placeholder="Spieler 1" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
+        <input #player1 [ngClass]="{'player': player == 0, 'playmate': playmate == 0}" matInput placeholder="Spieler 1" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
       </mat-form-field>
       <mat-form-field>
-        <input #player2 matInput placeholder="Spieler 2" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
+        <input #player2 [ngClass]="{'player': player == 1, 'playmate': playmate == 1}" matInput placeholder="Spieler 2" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
       </mat-form-field>
       <mat-form-field>
-        <input #player3 matInput placeholder="Spieler 3" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
+        <input #player3 [ngClass]="{'player': player == 2, 'playmate': playmate == 2}" matInput placeholder="Spieler 3" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
       </mat-form-field>
       <mat-form-field>
-        <input #player4 matInput placeholder="Spieler 4" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
+        <input #player4 [ngClass]="{'player': player == 3, 'playmate': playmate == 3}" matInput placeholder="Spieler 4" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)" (keypress)="createGame(player1, player2, player3, player4)">
       </mat-form-field>
 
       <div class="button-container">
-        <button mat-button class="submit-button button" (click)="createGame(player1, player2, player3, player4)">Spiel erstellen</button>
+        <button mat-button class="submit-button button" (click)="createGame($event, player1, player2, player3, player4)">Spiel erstellen</button>
       </div>
     </div>
   </mat-card-content>

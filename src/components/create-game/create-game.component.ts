@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 
@@ -16,26 +16,58 @@ export class CreateGameComponent {
 
   users: User[] = [];
   players: User[];
-  
+
   constructor(private snackBar: MatSnackBar, private session: SessionService, private backend: BackendService, private router: Router) {
-    this.users = this.session.getUsers('');
+    this.session.getUsers('', (users: User[]) => this.users = users);
   }
 
   /** Creates game with given players */
-  createGame(player1, player2, player3, player4): void {
-    if (player1 && player2 && player3 && player4 && player1.value && player2.value && player3.value && player4.value) {
-      this.players = [this.users.filter(player => player.username == player1.value)[0], 
-          this.users.filter(player => player.username == player2.value)[0], 
-          this.users.filter(player => player.username == player3.value)[0], 
-          this.users.filter(player => player.username == player4.value)[0]];
-      this.session.setPlayers(this.players);
-      this.router.navigate(['/submit-game']);
-    } else {
-      this.snackBar.open("Bitte füllen Sie alle Felder aus.");
+  createGame(event: Event, ...players: any[]): void {
+    if (event instanceof KeyboardEvent && event.keyCode !== 13) return; // keyCode 13: Enter key
+    for (let p of players) {
+      if (!p || !p.value) {
+        this.snackBar.open("Bitte füllen Sie alle Felder aus.", "Ok", { duration: 3000 });
+      }
     }
+    for (let i: number = 0; i < players.length; i++) {
+      for (let j: number = i+1; j < players.length; j++) {
+        if (players[i].value === players[j].value) {
+          this.snackBar.open("Ein Benutzer kann nur einmal eingegeben werden.", "Ok", { duration: 3000 });
+          return;
+        }
+      }
+    }   
+    this.backend.getUserByName(players[0].value).subscribe(res1 => {
+      if (!res1.user) {
+        this.snackBar.open("Der Benutzer '" + players[0].value + "' existiert nicht.", "Ok", { duration: 3000 });
+        return;
+      } 
+      this.backend.getUserByName(players[1].value).subscribe(res2 => {
+        if (!res2.user) {
+          this.snackBar.open("Der Benutzer '" + players[1].value + "' existiert nicht.", "Ok", { duration: 3000 });
+          return;
+        }
+        this.backend.getUserByName(players[2].value).subscribe(res3 => {
+          if (!res3.user) {
+            this.snackBar.open("Der Benutzer '" + players[2].value + "' existiert nicht.", "Ok", { duration: 3000 });
+            return;
+          }
+          this.backend.getUserByName(players[3].value).subscribe(res4 => {
+            if (!res4.user) {
+              this.snackBar.open("Der Benutzer '" + players[3].value + "' existiert nicht.", "Ok", { duration: 3000 });
+              return;
+            }
+            this.players = [res1.user, res2.user, res3.user, res4.user];
+            
+            this.session.setPlayers(this.players);
+            this.router.navigate(['/submit-game']);
+          });
+        });
+      });
+    });
   }
 
   userChange(searchString: string): void {
-    this.users = this.session.getUsers(searchString);
+    this.session.getUsers(searchString, (users: User[]) => this.users = users);
   }
 }

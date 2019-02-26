@@ -1,53 +1,41 @@
-<mat-card>
-  <mat-toolbar color="primary">
+<mat-toolbar color="primary">
     <span>Spiel erstellen</span>
-  </mat-toolbar>
+</mat-toolbar>
+<mat-card>
   <mat-card-content>
     <div class="form">
-      <mat-form-field>
-        <mat-autocomplete #playerAutocomplete="matAutocomplete">
-            <mat-option *ngFor="let user of players" [value]="user.username">
-              <!--<img [src]="user.image" height="25">-->
-              <span>{{ user.name }}</span> | 
-              <small>@{{ user.username }}</small>
-            </mat-option>
-        </mat-autocomplete>
-        <mat-autocomplete #playmateAutocomplete="matAutocomplete">
-          <mat-option value="Kein Mitspieler">Kein Mitspieler</mat-option>
-          <mat-option *ngFor="let user of players" [value]="user.username">
-            <!--<img [src]="user.image" height="25">-->
-            <span>{{ user.name }}</span> | 
-            <small>@{{ user.username }}</small>
-          </mat-option>
-        </mat-autocomplete>
-        <mat-autocomplete #gameTypeAutocomplete="matAutocomplete">
-          <mat-option *ngFor="let gameType of GameType | gameTypeToArray" [value]="gameType">
-            <!--<img [src]="user.image" height="25">-->
-            <span>{{ gameType }}</span> 
-          </mat-option>
-        </mat-autocomplete>
-        <input #player matInput placeholder="Spieler" [matAutocomplete]="playerAutocomplete">
-      </mat-form-field>
-      <mat-form-field>
-        <input #playmate matInput placeholder="Mitspieler" [matAutocomplete]="playmateAutocomplete">
-      </mat-form-field>
-      <mat-form-field>
-        <input #gameType matInput placeholder="Spieltyp" [matAutocomplete]="gameTypeAutocomplete">
-      </mat-form-field>
-      <mat-slide-toggle #schwarz [disabled]="gameType.value != 'Ramsch'">Schwarz gespielt</mat-slide-toggle>
+      <h4><span class="player">Spieler</span> und <span class="playmate">Mitspieler</span> auswählen</h4>
+      <mat-button-toggle #player1 [disabled]="buttonsDisabled[0]" [ngClass]="{'player': player == 0, 'playmate': playmate == 0}" (change)="changePlayers(0, $event, player1, player2, player3, player4)" class="full-size">{{ players[0].name }}</mat-button-toggle>
+      <mat-button-toggle #player2 [disabled]="buttonsDisabled[1]" [ngClass]="{'player': player == 1, 'playmate': playmate == 1}" (change)="changePlayers(1, $event, player1, player2, player3, player4)" class="full-size">{{ players[1].name }}</mat-button-toggle>
+      <mat-button-toggle #player3 [disabled]="buttonsDisabled[2]" [ngClass]="{'player': player == 2, 'playmate': playmate == 2}" (change)="changePlayers(2, $event, player1, player2, player3, player4)" class="full-size">{{ players[2].name }}</mat-button-toggle>
+      <mat-button-toggle #player4 [disabled]="buttonsDisabled[3]" [ngClass]="{'player': player == 3, 'playmate': playmate == 3}" (change)="changePlayers(3, $event, player1, player2, player3, player4)" class="full-size">{{ players[3].name }}</mat-button-toggle><br>
+      <hr>
+      <mat-button-toggle-group #gameType="matButtonToggleGroup">
+        <mat-button-toggle *ngFor="let gT of GameType | gameTypeToArray" [value]="gT">
+          <mat-icon [svgIcon]="getGameTypeIcon(gT)"></mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group><br>
+      <hr>
+      <mat-slide-toggle #schwarz (click)="points.value = checked ? 120 : points.value">Schwarz gespielt</mat-slide-toggle>
       <br>
       <mat-form-field>
         <input #points [disabled]="schwarz.checked" type="number" min="0" max="120" matInput placeholder="Punkte">
       </mat-form-field>
-      <mat-form-field>
-        <input [disabled]="gameType.value != 'Ramsch'" #runners type="number" min="1" max="14" matInput placeholder="Laufende">
-      </mat-form-field>
-      <mat-form-field>
-        <input [disabled]="runners.value == 'Ramsch'" #virgins type="number" min="1" max="4" matInput placeholder="Anzahl Jungfrauen">
-      </mat-form-field>
+      <h4>Laufende (ja wo laufen sie denn hin?)</h4>
+      <mat-button-toggle-group #runners="matButtonToggleGroup" [value]="0">
+          <mat-button-toggle class="numberselect" [disabled]="gameType.value == 'Ramsch'" *ngFor="let number of [0,2,3,4,5,6,7,8,9,10,11,12,13,14]" [value]="number">
+            {{ number }}
+          </mat-button-toggle>
+      </mat-button-toggle-group><br>
+      <h4>Jungfrauen</h4>
+      <mat-button-toggle-group #virgins="matButtonToggleGroup" [value]="0">
+          <mat-button-toggle class="numberselect" [disabled]="gameType.value != 'Ramsch'" *ngFor="let number of [0,1,2,3]" [value]="number">
+            {{ number }}
+          </mat-button-toggle>
+      </mat-button-toggle-group><br>
 
       <div class="button-container">
-        <button mat-button class="submit-button button" (click)="submitGame(player, playmate, gameType, schwarz, points, runners, virgins)">Spieldaten absenden</button>
+        <button mat-button class="submit-button button" (click)="submitGame($event, gameType, schwarz, points, runners, virgins)">Spieldaten absenden</button>
       </div>
     </div>
   </mat-card-content>

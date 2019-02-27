@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-
-import { User } from '../datatypes/datatypes';
-
-const createHeaders = token => new Headers({'Authorization': 'Bearer ' + token});
+import { User, Game } from '../datatypes/datatypes';
 
 @Injectable()
 export class BackendService {
@@ -15,20 +12,22 @@ export class BackendService {
 
   /** Sends login data to backend validation */
   sendLoginData(username: string, password: string): Observable<any> {
-    return null;
-    //return this.http.post(`${this.BACKEND}/login`, { username, password })
-    //  .pipe(map(res => res.json()), 
-    //  catchError(err => Observable.throw(err)));
+    return this.http.post("/login", { username, password })
+        .pipe(map(res => res.json()), catchError((err, caught) => of(err)));
   }
 
   /** Requests user data from backend */
-  getUsers(): Observable<any> {
-    return null;
+  getUsers(searchString: string): Observable<any> {
+    return this.http.post("/queryUser", { search: searchString })
+    .pipe(map(res => res.json()), catchError(err => of(err)));
   }
 
-  /** Sends game creation data to backend */
-  sendGameCreationData(player1: User, player2: User, player3: User, player4: User): Observable<any> {
-    return null;
+  getUserByName(username: string): Observable<any> {
+    return this.http.post("/getUser", { username: username })
+    .pipe(map(res => res.json()), catchError(err => of(err)));
   }
 
+  sendGameData(game: Game): void {
+
+  }
 }

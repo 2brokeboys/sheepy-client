@@ -16,14 +16,18 @@ import { AppRoutingModule } from './router.module';
 import { AppComponent } from './app.website.component';
 import { LoginComponent } from './login/login.component';
 import { CreateGameComponent } from './create-game/create-game.component';
+import { SubmitGameComponent, GameTypeToArray } from './submit-game/submit-game.component';
 import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 
 import { BackendService } from '../services/backend.service';
+import { SessionService } from '../services/session.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    GameTypeToArray,
+    SubmitGameComponent,
     CreateGameComponent,
     PageNotFoundComponent
   ],
@@ -40,6 +44,8 @@ import { BackendService } from '../services/backend.service';
   ],
   providers: [
     BackendService,
+    GameTypeToArray,
+    SessionService
   ],
   bootstrap: [AppComponent]
 })

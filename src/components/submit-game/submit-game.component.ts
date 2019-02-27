@@ -1,4 +1,4 @@
-import { Component, ViewChild, Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 
@@ -39,7 +39,7 @@ export class SubmitGameComponent {
             playmate: this.playmate,
             gameType: (<any>GameType)[gameType.value],
             schwarz: false,
-            points: 0,
+            points: -1,
             runners: -1,
             virgins: virgins.value
           };

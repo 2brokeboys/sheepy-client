@@ -6,7 +6,7 @@ import { BackendService } from './backend.service';
 @Injectable()
 export class SessionService {
 
-  players: User[] = [];
+  participants: User[] = [];
   users: User[] = [];
   loggedInUser: User;
 
@@ -14,7 +14,7 @@ export class SessionService {
 
   /** Returns the currently playing players */
   getPlayers(): User[] {
-    return this.players;
+    return this.participants;
   }
 
   /** Returns the currently logged in user */
@@ -81,12 +81,12 @@ export class SessionService {
   }
 
   setPlayers(players: User[]): void {
-    this.players = players;
+    this.participants = players;
   }
 
   /** Remove session data */
   logout(): void {
-    this.players = [];
+    this.participants = [];
     this.loggedInUser = undefined;
   }
 }

@@ -4,8 +4,6 @@ import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { User, Game } from '../datatypes/datatypes';
 
-const createHeaders = token => new Headers({'Authorization': 'Bearer ' + token});
-
 @Injectable()
 export class BackendService {
   BACKEND = '.';

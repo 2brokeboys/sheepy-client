@@ -20,7 +20,7 @@ export class LoginComponent {
               private router: Router) {
     // Tests if user already logged in
     this.backend.sendLoginData("", "").subscribe(res => {
-      if (res.status == 409) this.router.navigate(['/create-game']);
+      if (res.error == "already logged in") this.router.navigate(['/create-game']);
     });
   }
 

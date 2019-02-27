@@ -11,3 +11,7 @@ import './delete.svg';
 import './logo.png';
 import './add.svg';
 import './add-users.svg';
+import './eichel.jpg';
+import './gras.jpg';
+import './herz.jpg';
+import './schell.jpg';

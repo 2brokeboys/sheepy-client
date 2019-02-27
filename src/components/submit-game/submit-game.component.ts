@@ -114,6 +114,15 @@ export class SubmitGameComponent {
     // temporary till icons are created
     return 'impressum';
   }
+
+  /** Returns the class fo the button of the gameType */
+  getGameTypeClass(gameType: string): string {
+    let parts : string[] = gameType.split(" ");
+    if(parts.length == 2) {
+      return parts[1].toLocaleLowerCase();
+    }
+    return "";
+  }
 }
 
 @Pipe({

@@ -35,32 +35,48 @@ export class SessionService {
    * @param users Users that are currently found
    */
   setUsers(users: User[]): void {
-    if (!users) users = [];
+    if (!users) return;
     for (let user of users) {
-      if (this.users.indexOf(user) === -1) this.users.push(user);
+      if (!this.hasUser(user)) this.users.push(user);
     }
+  }
+
+  /**
+   * Check if user is in the cache
+   */
+  hasUser(user: User): boolean {
+    for (let u of this.users) {
+      if(u.id === user.id) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
    * Gets all users matched by the string
    * @param searchString string by which the user should be searched
    */
-  getUsers(searchString: string): User[] {
+  getUsers(searchString: string, callback): void {
     let u = [];
-    for (let user of this.users) {
-      if (user.username.includes(searchString)) {
-        u.push(user);
-        continue;
+    if (searchString === '') {
+      u = this.users;
+    } else {
+      for (let user of this.users) {
+        if (user.username.toLowerCase().includes(searchString.toLowerCase())) {
+          if (u.indexOf(user) === -1) u.push(user);
+          continue;
+        }
+        if (user.name.toLowerCase().includes(searchString.toLowerCase()) && u.indexOf(user) === -1) u.push(user);
       }
-      if (user.name.includes(searchString)) u.push(user);
     }
     if (u.length < 5) {
       this.backend.getUsers(searchString).subscribe(res => {
         this.setUsers(res.users);
-        return u;
+        callback(u);
       });
     } else {
-      return u;
+      callback(u);
     }
   }
 

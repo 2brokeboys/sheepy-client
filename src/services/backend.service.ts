@@ -24,6 +24,11 @@ export class BackendService {
     .pipe(map(res => res.json()), catchError(err => of(err)));
   }
 
+  getUserByName(username: string): Observable<any> {
+    return this.http.post("/getUser", { username: username })
+    .pipe(map(res => res.json()), catchError(err => of(err)));
+  }
+
   sendGameData(game: Game): void {
 
   }

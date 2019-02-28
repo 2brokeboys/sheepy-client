@@ -5,6 +5,7 @@
   "main": "application.js",
   "scripts": {
     "serve:website": "webpack-dev-server --inline --content-base ./src --watch-poll --host localhost --config webpack.config.website.js",
+    "watch:website": "webpack --watch --config webpack.config.website.js",
     "build:website": "rimraf ./dist/webpack/website && webpack --config webpack.config.website.js",
     "start:website": "http-server ./dist/webpack/website",
     "build:desktop": "rimraf ./dist/webpack/desktop && webpack --config webpack.config.electron-main.js && webpack --config webpack.config.electron-renderer.js",
@@ -27,10 +28,9 @@
     "@angular/platform-browser": "^7.0.0",
     "@angular/platform-browser-dynamic": "^7.0.0",
     "@angular/router": "^7.0.0",
-    "fs": "^0.0.1-security",
+    "core-js": "^2.6.5",
     "rxjs": "^6.4.0",
-    "zone.js": "^0.8.29",
-    "core-js": "^2.6.5"
+    "zone.js": "^0.8.29"
   },
   "devDependencies": {
     "@types/core-js": "^2.5.0",

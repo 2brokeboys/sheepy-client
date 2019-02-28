@@ -25,50 +25,55 @@ export class SubmitGameComponent {
   /** Checks if provided information is correct and formats it correct */
   submitGame(event: Event, gameType, schwarz, points, runners, virgins): void {
     if (event instanceof KeyboardEvent && event.keyCode !== 13) return; // keyCode 13: Enter key
-    if (gameType && schwarz && points && runners && virgins && gameType.value) {
-
-      if (gameType.value == "Ramsch") {
-        if (virgins.value) {
-          if (virgins.value < 0 || virgins.value > 3) {
-            this.snackBar.open("Bitte überprüfen Sie Ihre Eingaben auf Richtigkeit.");
-            return;
-          }
-          const game: Game = {
-            participants: this.players.map(p => p.id),
-            player: this.player,
-            playmate: this.playmate,
-            gameType: (<any>GameType)[gameType.value],
-            schwarz: false,
-            points: -1,
-            runners: -1,
-            virgins: virgins.value
-          };
-          this.backend.sendGameData(game);
-          console.log(game);
-          return;
-        }
-      } else {
-        if (points.value && points.value <= 120 && points.value >= 0 && schwarz.checked && runners.value && points.value) {
-          if (points.value > 120 || points.value < 0 || runners.value > 14 || runners.value < 0) {
-            this.snackBar.open("Bitte überprüfen Sie Ihre Eingaben auf Richtigkeit.");
-            return;
-          }
-          const game: Game = {
-            participants: this.players.map(p => p.id),
-            player: undefined,//this.players.indexOf(player.value),
-            playmate: undefined,//this.players.indexOf(playmate.value),
-            gameType: (<any>GameType)[gameType.value],
-            schwarz: schwarz.checked,
-            points: schwarz.checked ? 120 : points.value,
-            runners: runners.value,
-            virgins: -1
-          };
-          this.backend.sendGameData(game);
-          return;
-        }
-      }
+    if (!gameType || !schwarz || !points || !runners || !virgins || !gameType.value) {
+      this.snackBar.open("Bitte überprüfen Sie, ob Ihre Eingaben vollständig sind.", "", {duration: 3000});
     }
-    this.snackBar.open("Bitte überprüfen Sie, ob Ihre Eingaben vollständig sind.");
+
+    // TODO: client-side validation here (server already does validation with meaningfull messages)
+    // also, we only need to do validation a this point, that is not caught via the UI
+    // (i.e. by disabling buttons)
+
+    const game: Game = {
+      participants: this.players.map(p => p.id),
+      player: this.player === undefined ? -1 : this.player,
+      playmate: this.playmate === undefined ? -1 : this.playmate,
+      gameType: (<any>GameType)[gameType.value],
+      schwarz: schwarz.checked,
+      points: +points.value,
+      runners: runners.value,
+      virgins: virgins.value
+    };
+
+    if (game.gameType == GameType.Ramsch) {
+      game.runners = -1;
+    } else {
+      game.virgins = -1;
+    }
+
+    // TODO: this could theoretically be 0 aswell
+    if (game.schwarz) {
+      game.points = 120;
+    }
+    this.backend.sendGameData(game).subscribe(res => {
+      if (res.success) {
+        // TODO: Reset game form.
+        this.snackBar.open("Erfolgreich abgesendet.", "", {duration: 3000})
+        return;
+      }
+      if (res.error == "invalid data") {
+        this.snackBar.open("Fehler im Programm, bitte Entwickler benachrichtigen. (-12329)", "", {duration: 3000});
+        return;
+      }
+      if (res.error == "invalid game")  {
+        if(!res.messages) {
+          this.snackBar.open("Fehler im Programm, bitte Entwickler benachrichtigen. (-32453)", "", {duration: 3000});
+          return;
+        }
+        this.snackBar.open("Eingabefehler: " + res.messages.join(" "), "", {duration: 3000});
+        return;
+      }
+      this.snackBar.open("Fehler im Programm, bitte Entwickler benachrichtigen. (-80273)", "", {duration: 3000})
+    });
   }
 
   changePlayers(button: number, event: any, ...buttons: any[]): void {

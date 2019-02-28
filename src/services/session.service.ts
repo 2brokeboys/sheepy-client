@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from '../datatypes/datatypes';
 
 import { BackendService } from './backend.service';
@@ -10,7 +11,7 @@ export class SessionService {
   users: User[] = [];
   loggedInUser: User;
 
-  constructor(private backend: BackendService) { }
+  constructor(private backend: BackendService, private router: Router) { }
 
   /** Returns the currently playing players */
   getPlayers(): User[] {
@@ -87,6 +88,8 @@ export class SessionService {
   /** Remove session data */
   logout(): void {
     this.participants = [];
+    this.backend.logout(this.loggedInUser);
     this.loggedInUser = undefined;
+    this.router.navigate(['/login']);
   }
 }

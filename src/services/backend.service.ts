@@ -31,4 +31,6 @@ export class BackendService {
     return this.http.post("/newGame", game)
     .pipe(map(res => res.json()), catchError(err => of(err)));
   }
+
+  logout(user: User): void {}
 }

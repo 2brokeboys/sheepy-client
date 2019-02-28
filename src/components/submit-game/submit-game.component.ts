@@ -56,7 +56,7 @@ export class SubmitGameComponent {
     }
     this.backend.sendGameData(game).subscribe(res => {
       if (res.success) {
-        // TODO: Reset game form.
+        this.resetForm(gameType, schwarz, points, runners, virgins);
         this.snackBar.open("Erfolgreich abgesendet.", "", {duration: 3000})
         return;
       }
@@ -106,6 +106,19 @@ export class SubmitGameComponent {
       default:
         // This should not happen
     }
+  }
+
+  /** Clears all inputs */
+  resetForm(gameType, schwarz, points, runners, virgins) {
+    this.player = undefined;
+    this.playmate = undefined;
+    this.buttonsDisabled = [false, false, false, false];
+    
+    gameType.value = 0;
+    schwarz.checked = false;
+    points.value = "";
+    runners.value = 0;
+    virgins.value = 0;
   }
 
   /** Returns the icon id of the gameType */

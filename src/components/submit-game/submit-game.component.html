@@ -10,8 +10,8 @@
       <mat-button-toggle #player3 [disabled]="buttonsDisabled[2]" [ngClass]="{'player': player == 2, 'playmate': playmate == 2}" (change)="changePlayers(2, $event, player1, player2, player3, player4)" class="full-size">{{ players[2].name }}</mat-button-toggle>
       <mat-button-toggle #player4 [disabled]="buttonsDisabled[3]" [ngClass]="{'player': player == 3, 'playmate': playmate == 3}" (change)="changePlayers(3, $event, player1, player2, player3, player4)" class="full-size">{{ players[3].name }}</mat-button-toggle><br>
       <hr>
-      <mat-button-toggle-group #gameType="matButtonToggleGroup">
-        <mat-button-toggle *ngFor="let gT of GameType | gameTypeToArray" [value]="gT">
+      <mat-button-toggle-group #gameType="matButtonToggleGroup" id="gameType">
+        <mat-button-toggle *ngFor="let gT of GameType | gameTypeToArray" [value]="gT" [ngClass]="getGameTypeClass(gT)">
           <mat-icon [svgIcon]="getGameTypeIcon(gT)"></mat-icon>
         </mat-button-toggle>
       </mat-button-toggle-group><br>

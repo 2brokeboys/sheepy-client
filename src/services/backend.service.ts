@@ -32,5 +32,8 @@ export class BackendService {
     .pipe(map(res => res.json()), catchError(err => of(err)));
   }
 
-  logout(user: User): void {}
+  logout(user: User): Observable<any> {
+    return this.http.post("/logout", "")
+    .pipe(map(res => res.json()), catchError(err => of(err)));
+  }
 }

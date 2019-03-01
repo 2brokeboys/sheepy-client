@@ -87,9 +87,14 @@ export class SessionService {
 
   /** Remove session data */
   logout(): void {
-    this.participants = [];
-    this.backend.logout(this.loggedInUser);
-    this.loggedInUser = undefined;
-    this.router.navigate(['/login']);
+    this.backend.logout(this.loggedInUser).subscribe(res => {
+      if(!res.success) {
+        console.error("ERROR");
+        return;
+      }
+      this.participants = [];
+      this.loggedInUser = undefined;
+      this.router.navigate(['/login']);
+    });
   }
 }

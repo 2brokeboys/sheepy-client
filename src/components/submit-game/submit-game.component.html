@@ -1,5 +1,8 @@
 <mat-toolbar color="primary">
-    <span>Spiel erstellen</span>
+  <button mat-icon-button (click)="router.navigate(['/create-game'])" #tooltip="matTooltip" matTooltip="Zurück" matToolTipPosition="below" class="back-icon">
+    <mat-icon svgIcon="back"></mat-icon>
+  </button>  
+  <span>Spiel erstellen</span>
 </mat-toolbar>
 <mat-card>
   <mat-card-content>

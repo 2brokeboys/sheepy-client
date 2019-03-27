@@ -1,5 +1,9 @@
 <mat-toolbar color="primary">
-    <span>Spiel erstellen</span>
+  <span>Spiel erstellen</span>
+  <span class="fill-remaining"></span>
+  <button mat-icon-button (click)="session.logout()" #tooltip="matTooltip" matTooltip="Logout" matToolTipPosition="below" class="back-icon">
+    <mat-icon svgIcon="logout"></mat-icon>
+  </button>
 </mat-toolbar>
 <mat-card>
   <mat-card-content>

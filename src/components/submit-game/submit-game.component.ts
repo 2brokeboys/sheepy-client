@@ -1,4 +1,4 @@
-import { Component, Pipe, PipeTransform } from '@angular/core';
+import { Component, Pipe, PipeTransform, ChangeDetectorRef } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 
@@ -18,12 +18,12 @@ export class SubmitGameComponent {
   playmate: number;
   buttonsDisabled: boolean[] = new Array(4);
 
-  constructor(private snackBar: MatSnackBar, private backend: BackendService, private router: Router, private session: SessionService) {
+  constructor(private snackBar: MatSnackBar, private backend: BackendService, private router: Router, private session: SessionService, private changeDet: ChangeDetectorRef) {
     this.players = this.session.getPlayers();
   }
 
   /** Checks if provided information is correct and formats it correct */
-  submitGame(event: Event, gameType, schwarz, points, runners, virgins): void {
+  submitGame(event: Event, gameType, schwarz, points, runners, virgins, ...playerButtons): void {
     if (event instanceof KeyboardEvent && event.keyCode !== 13) return; // keyCode 13: Enter key
     if (!gameType || !schwarz || !points || !runners || !virgins || !gameType.value) {
       this.snackBar.open("Bitte überprüfen Sie, ob Ihre Eingaben vollständig sind.");
@@ -56,7 +56,7 @@ export class SubmitGameComponent {
     }
     this.backend.sendGameData(game).subscribe(res => {
       if (res.success) {
-        // TODO: Reset game form.
+        this.resetForm(gameType, schwarz, points, runners, virgins, ...playerButtons);
         this.snackBar.open("Erfolgreich abgesendet.")
         return;
       }
@@ -106,6 +106,24 @@ export class SubmitGameComponent {
       default:
         // This should not happen
     }
+  }
+
+  /** Clears all inputs */
+  resetForm(gameType, schwarz, points, runners, virgins, ...playerButtons) {
+    this.player = undefined;
+    this.playmate = undefined;
+    this.buttonsDisabled = [false, false, false, false];
+
+    playerButtons[0].checked = false;
+    playerButtons[1].checked = false;
+    playerButtons[2].checked = false;
+    playerButtons[3].checked = false;
+    gameType.value = 0;
+    schwarz.checked = false;
+    points.value = "";
+    runners.value = 0;
+    virgins.value = 0;
+    this.changeDet.detectChanges();
   }
 
   /** Returns the icon id of the gameType */

@@ -26,7 +26,7 @@ export class SubmitGameComponent {
   submitGame(event: Event, gameType, schwarz, points, runners, virgins, ...playerButtons): void {
     if (event instanceof KeyboardEvent && event.keyCode !== 13) return; // keyCode 13: Enter key
     if (!gameType || !schwarz || !points || !runners || !virgins || !gameType.value) {
-      this.snackBar.open("Bitte überprüfen Sie, ob Ihre Eingaben vollständig sind.", "", {duration: 3000});
+      this.snackBar.open("Bitte überprüfen Sie, ob Ihre Eingaben vollständig sind.");
     }
 
     // TODO: client-side validation here (server already does validation with meaningfull messages)
@@ -57,22 +57,22 @@ export class SubmitGameComponent {
     this.backend.sendGameData(game).subscribe(res => {
       if (res.success) {
         this.resetForm(gameType, schwarz, points, runners, virgins, ...playerButtons);
-        this.snackBar.open("Erfolgreich abgesendet.", "", {duration: 3000})
+        this.snackBar.open("Erfolgreich abgesendet.")
         return;
       }
       if (res.error == "invalid data") {
-        this.snackBar.open("Fehler im Programm, bitte Entwickler benachrichtigen. (-12329)", "", {duration: 3000});
+        this.snackBar.open("Fehler im Programm, bitte Entwickler benachrichtigen. (-12329)");
         return;
       }
       if (res.error == "invalid game")  {
         if(!res.messages) {
-          this.snackBar.open("Fehler im Programm, bitte Entwickler benachrichtigen. (-32453)", "", {duration: 3000});
+          this.snackBar.open("Fehler im Programm, bitte Entwickler benachrichtigen. (-32453)");
           return;
         }
-        this.snackBar.open("Eingabefehler: " + res.messages.join(" "), "", {duration: 3000});
+        this.snackBar.open("Eingabefehler: " + res.messages.join(" "));
         return;
       }
-      this.snackBar.open("Fehler im Programm, bitte Entwickler benachrichtigen. (-80273)", "", {duration: 3000})
+      this.snackBar.open("Fehler im Programm, bitte Entwickler benachrichtigen. (-80273)")
     });
   }
 

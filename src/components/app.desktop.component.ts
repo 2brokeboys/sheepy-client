@@ -51,6 +51,7 @@ export class AppComponent {
     this.iconRegistry.addSvgIcon('remove-game', this.sanitizer.bypassSecurityTrustResourceUrl('assets/delete.svg'));
     this.iconRegistry.addSvgIcon('add', this.sanitizer.bypassSecurityTrustResourceUrl('assets/add.svg'));
     this.iconRegistry.addSvgIcon('user', this.sanitizer.bypassSecurityTrustResourceUrl('assets/user.svg'));
+    this.iconRegistry.addSvgIcon('back', this.sanitizer.bypassSecurityTrustResourceUrl('assets/back.svg'));
     
     // Used for desktop application
     this.iconRegistry.addSvgIcon('close', this.sanitizer.bypassSecurityTrustResourceUrl('assets/close.svg'));

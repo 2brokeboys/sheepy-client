@@ -33,7 +33,7 @@ export class LoginComponent {
       this.loadingURL = true;
       this.backend.sendLoginData(this.username.nativeElement.value, this.password.nativeElement.value).subscribe(res => {
         if (!res.success) {
-          this.snackBar.open("Der Benutzername oder das Passwort ist falsch.", "Bitte erneut versuchen!", { duration: 3000 });
+          this.snackBar.open("Der Benutzername oder das Passwort ist falsch.");
           this.loadingURL = false;
           return;
         }
@@ -42,7 +42,7 @@ export class LoginComponent {
       });
       return;
     } else {
-      this.snackBar.open('Sie haben keine Benutzerdaten eingegeben!', 'Bitte erneut versuchen!', { duration: 3000 });
+      this.snackBar.open('Bitte geben Sie Benutzername und Passwort an.');
       this.loadingURL = false;
     }
   }

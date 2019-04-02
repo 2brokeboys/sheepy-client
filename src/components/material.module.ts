@@ -24,7 +24,8 @@ import {
   MatSnackBarModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MAT_SNACK_BAR_DEFAULT_OPTIONS
 } from '@angular/material';
 
 @NgModule({
@@ -79,6 +80,9 @@ import {
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule
+  ],
+  providers: [
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 }}
   ]
 })
 export class MaterialModule {}

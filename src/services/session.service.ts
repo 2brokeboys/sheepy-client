@@ -71,7 +71,7 @@ export class SessionService {
         if (user.name.toLowerCase().includes(searchString.toLowerCase()) && u.indexOf(user) === -1) u.push(user);
       }
     }
-    if (u.length < 5) {
+    if (searchString !== '' && u.length < 5) {
       this.backend.getUsers(searchString).subscribe(res => {
         this.setUsers(res.users);
         callback(u);

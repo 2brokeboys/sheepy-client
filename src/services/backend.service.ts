@@ -32,6 +32,11 @@ export class BackendService {
     .pipe(map(res => res.json()), catchError(err => of(err)));
   }
 
+  getRecentGames(): Observable<any> {
+    return this.http.post("/queryRecentGames", { number: 10 })
+    .pipe(map(res => res.json()), catchError(err => of(err)));
+  }
+
   logout(user: User): Observable<any> {
     return this.http.post("/logout", "")
     .pipe(map(res => res.json()), catchError(err => of(err)));

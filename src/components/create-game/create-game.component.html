@@ -7,30 +7,39 @@
 </mat-toolbar>
 <mat-card>
   <mat-card-content>
-    <div class="form">
-      <mat-form-field>
-          <mat-autocomplete #usersAutocomplete="matAutocomplete">
-            <mat-option *ngFor="let user of users" [value]="user.username">
-              <!--<img [src]="user.image" height="25">-->
-              <span>{{ user.name }}</span> | 
-              <small>@{{ user.username }}</small>
-            </mat-option>
-          </mat-autocomplete>
-        <input #player1 matInput placeholder="Spieler 1" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
-      </mat-form-field>
-      <mat-form-field>
-        <input #player2 matInput placeholder="Spieler 2" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
-      </mat-form-field>
-      <mat-form-field>
-        <input #player3 matInput placeholder="Spieler 3" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
-      </mat-form-field>
-      <mat-form-field>
-        <input #player4 matInput placeholder="Spieler 4" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)" (keypress)="createGame($event, player1, player2, player3, player4)">
-      </mat-form-field>
+    <h4>Neues Spiel erstellen</h4>
+    <mat-form-field>
+        <mat-autocomplete #usersAutocomplete="matAutocomplete">
+          <mat-option *ngFor="let user of users" [value]="user.username">
+            <!--<img [src]="user.image" height="25">-->
+            <span>{{ user.name }}</span> | 
+            <small>@{{ user.username }}</small>
+          </mat-option>
+        </mat-autocomplete>
+      <input #player1 matInput placeholder="Spieler 1" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
+    </mat-form-field>
+    <mat-form-field>
+      <input #player2 matInput placeholder="Spieler 2" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
+    </mat-form-field>
+    <mat-form-field>
+      <input #player3 matInput placeholder="Spieler 3" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
+    </mat-form-field>
+    <mat-form-field>
+      <input #player4 matInput placeholder="Spieler 4" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)" (keypress)="createGame($event, player1, player2, player3, player4)">
+    </mat-form-field>
 
-      <div class="button-container">
-        <button mat-button class="submit-button button" (click)="createGame($event, player1, player2, player3, player4)">Spiel erstellen</button>
-      </div>
+    <div class="button-container">
+      <button mat-button class="submit-button button" (click)="createGame($event, player1, player2, player3, player4)">Spiel erstellen</button>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-content>
+    <h4>Kürzlich gespielte Spiele</h4>
+    <div *ngFor="let recentGame of recentGames">
+      <span *ngFor="let participant of recentGame.participants">{{ participant.name }} @{{ participant.username }}</span>
+      <span class="fill-remaining"></span>
+      <button mat-button class="button" (click)="loadGame(recentGame.player1, recentGame.player2, recentGame.player3, recentGame.player4)">Spiel laden</button>
     </div>
   </mat-card-content>
 </mat-card>

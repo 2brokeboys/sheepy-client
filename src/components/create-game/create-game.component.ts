@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 
-import { User } from '../../datatypes/datatypes';
+import { User, Game } from '../../datatypes/datatypes';
 
 import { SessionService } from '../../services/session.service';
 import { BackendService } from '../../services/backend.service';
@@ -16,27 +16,15 @@ export class CreateGameComponent {
 
   users: User[] = [];
   players: User[];
+  recentGames: Game[];
 
   constructor(private snackBar: MatSnackBar, private session: SessionService, private backend: BackendService, private router: Router) {
     this.session.getUsers('', (users: User[]) => this.users = users);
+    this.backend.getRecentGames().subscribe((res) => this.recentGames = res.recentGames);
   }
 
-  /** Creates game with given players */
-  createGame(event: Event, ...players: any[]): void {
-    if (event instanceof KeyboardEvent && event.keyCode !== 13) return; // keyCode 13: Enter key
-    for (let p of players) {
-      if (!p || !p.value) {
-        this.snackBar.open("Bitte füllen Sie alle Felder aus.");
-      }
-    }
-    for (let i: number = 0; i < players.length; i++) {
-      for (let j: number = i+1; j < players.length; j++) {
-        if (players[i].value === players[j].value) {
-          this.snackBar.open("Ein Benutzer kann nur einmal eingegeben werden.");
-          return;
-        }
-      }
-    }
+  /** Loads game with selected players */
+  loadGame(...players: any[]): void {
     this.backend.getUserByName(players[0].value).subscribe(res1 => {
       if (!res1.user) {
         this.snackBar.open("Der Benutzer '" + players[0].value + "' existiert nicht.");
@@ -65,6 +53,25 @@ export class CreateGameComponent {
         });
       });
     });
+  }
+
+  /** Creates game with given players */
+  createGame(event: Event, ...players: any[]): void {
+    if (event instanceof KeyboardEvent && event.keyCode !== 13) return; // keyCode 13: Enter key
+    for (let p of players) {
+      if (!p || !p.value) {
+        this.snackBar.open("Bitte füllen Sie alle Felder aus.");
+      }
+    }
+    for (let i: number = 0; i < players.length; i++) {
+      for (let j: number = i+1; j < players.length; j++) {
+        if (players[i].value === players[j].value) {
+          this.snackBar.open("Ein Benutzer kann nur einmal eingegeben werden.");
+          return;
+        }
+      }
+    }
+    this.loadGame(...players);
   }
 
   userChange(searchString: string): void {

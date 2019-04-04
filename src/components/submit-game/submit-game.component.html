@@ -25,17 +25,10 @@
         <input #points [disabled]="schwarz.checked" type="number" min="0" max="120" matInput placeholder="Punkte">
       </mat-form-field>
       <h4>Laufende (ja wo laufen sie denn hin?)</h4>
-      <mat-button-toggle-group #runners="matButtonToggleGroup" [value]="0">
-          <mat-button-toggle class="numberselect" [disabled]="gameType.value == 'Ramsch'" *ngFor="let number of [0,2,3,4,5,6,7,8,9,10,11,12,13,14]" [value]="number">
-            {{ number }}
-          </mat-button-toggle>
-      </mat-button-toggle-group><br>
+      <mat-slider #runners class="full-size" min="0" max="14" step="1" thumbLabel="true"></mat-slider><br>
       <h4>Jungfrauen</h4>
-      <mat-button-toggle-group #virgins="matButtonToggleGroup" [value]="0">
-          <mat-button-toggle class="numberselect" [disabled]="gameType.value != 'Ramsch'" *ngFor="let number of [0,1,2,3]" [value]="number">
-            {{ number }}
-          </mat-button-toggle>
-      </mat-button-toggle-group><br>
+      <mat-slider #virgins class="full-size" min="0" max="3" step="1" thumbLabel="true"></mat-slider><br>
+      <br>
 
       <div class="button-container">
         <button mat-button class="submit-button button" (click)="submitGame($event, gameType, schwarz, points, runners, virgins, player1, player2, player3, player4)">Spieldaten absenden</button>

@@ -4,8 +4,6 @@ import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { User, Game } from '../datatypes/datatypes';
 
-const createHeaders = token => new Headers({'Authorization': 'Bearer ' + token});
-
 @Injectable()
 export class BackendService {
   BACKEND = '.';
@@ -15,7 +13,7 @@ export class BackendService {
   /** Sends login data to backend validation */
   sendLoginData(username: string, password: string): Observable<any> {
     return this.http.post("/login", { username, password })
-        .pipe(map(res => res.json()), catchError((err, caught) => of(err)));
+    .pipe(map(res => res.json()), catchError((err) => of(err)));
   }
 
   /** Requests user data from backend */
@@ -29,7 +27,13 @@ export class BackendService {
     .pipe(map(res => res.json()), catchError(err => of(err)));
   }
 
-  sendGameData(game: Game): void {
+  sendGameData(game: Game): Observable<any> {
+    return this.http.post("/newGame", game)
+    .pipe(map(res => res.json()), catchError(err => of(err)));
+  }
 
+  logout(user: User): Observable<any> {
+    return this.http.post("/logout", "")
+    .pipe(map(res => res.json()), catchError(err => of(err)));
   }
 }

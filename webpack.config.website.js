@@ -10,7 +10,7 @@ module.exports = {
 
   output: {
     path: __dirname + "/dist/webpack/website",
-    filename: "[name].js"
+    filename: "[name].js?hash=[contenthash]"
   },
 
   resolve: {
@@ -36,5 +36,17 @@ module.exports = {
         removeComments: true
       }
     })
-  ]
+  ],
+
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'dependencies',
+          chunks: 'all'
+        }
+      }
+    }
+  }
 };

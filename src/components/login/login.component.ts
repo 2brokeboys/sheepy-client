@@ -20,7 +20,7 @@ export class LoginComponent {
               private router: Router) {
     // Tests if user already logged in
     this.backend.sendLoginData("", "").subscribe(res => {
-      if (res.status == 409) this.router.navigate(['/create-game']);
+      if (res.error == "already logged in") this.router.navigate(['/create-game']);
     });
   }
 
@@ -33,7 +33,7 @@ export class LoginComponent {
       this.loadingURL = true;
       this.backend.sendLoginData(this.username.nativeElement.value, this.password.nativeElement.value).subscribe(res => {
         if (!res.success) {
-          this.snackBar.open("Der Benutzername oder das Passwort ist falsch.", "Bitte erneut versuchen!", { duration: 3000 });
+          this.snackBar.open("Der Benutzername oder das Passwort ist falsch.");
           this.loadingURL = false;
           return;
         }
@@ -42,7 +42,7 @@ export class LoginComponent {
       });
       return;
     } else {
-      this.snackBar.open('Sie haben keine Benutzerdaten eingegeben!', 'Bitte erneut versuchen!', { duration: 3000 });
+      this.snackBar.open('Bitte geben Sie Benutzername und Passwort an.');
       this.loadingURL = false;
     }
   }

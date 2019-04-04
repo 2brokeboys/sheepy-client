@@ -1,5 +1,8 @@
 <mat-toolbar color="primary">
-    <span>Spiel erstellen</span>
+  <button mat-icon-button (click)="router.navigate(['/create-game'])" #tooltip="matTooltip" matTooltip="Zurück" matToolTipPosition="below" class="back-icon">
+    <mat-icon svgIcon="back"></mat-icon>
+  </button>  
+  <span>Spiel erstellen</span>
 </mat-toolbar>
 <mat-card>
   <mat-card-content>
@@ -35,7 +38,7 @@
       </mat-button-toggle-group><br>
 
       <div class="button-container">
-        <button mat-button class="submit-button button" (click)="submitGame($event, gameType, schwarz, points, runners, virgins)">Spieldaten absenden</button>
+        <button mat-button class="submit-button button" (click)="submitGame($event, gameType, schwarz, points, runners, virgins, player1, player2, player3, player4)">Spieldaten absenden</button>
       </div>
     </div>
   </mat-card-content>

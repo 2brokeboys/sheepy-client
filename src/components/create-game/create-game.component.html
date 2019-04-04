@@ -1,5 +1,9 @@
 <mat-toolbar color="primary">
-    <span>Spiel erstellen</span>
+  <span>Spiel erstellen</span>
+  <span class="fill-remaining"></span>
+  <button mat-icon-button (click)="session.logout()" #tooltip="matTooltip" matTooltip="Logout" matToolTipPosition="below" class="back-icon">
+    <mat-icon svgIcon="logout"></mat-icon>
+  </button>
 </mat-toolbar>
 <mat-card>
   <mat-card-content>
@@ -21,7 +25,7 @@
         <input #player3 [ngClass]="{'player': player == 2, 'playmate': playmate == 2}" matInput placeholder="Spieler 3" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)">
       </mat-form-field>
       <mat-form-field>
-        <input #player4 [ngClass]="{'player': player == 3, 'playmate': playmate == 3}" matInput placeholder="Spieler 4" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)" (keypress)="createGame(player1, player2, player3, player4)">
+        <input #player4 matInput placeholder="Spieler 4" [matAutocomplete]="usersAutocomplete" (keyup)="userChange($event.target.value)" (keypress)="createGame($event, player1, player2, player3, player4)">
       </mat-form-field>
 
       <div class="button-container">

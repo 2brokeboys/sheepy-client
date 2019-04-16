@@ -26,35 +26,35 @@ export class CreateGameComponent {
     if (event instanceof KeyboardEvent && event.keyCode !== 13) return; // keyCode 13: Enter key
     for (let p of players) {
       if (!p || !p.value) {
-        this.snackBar.open("Bitte füllen Sie alle Felder aus.");
+        this.snackBar.open("Bitte füllen Sie alle Felder aus.", "OK");
       }
     }
     for (let i: number = 0; i < players.length; i++) {
       for (let j: number = i+1; j < players.length; j++) {
         if (players[i].value === players[j].value) {
-          this.snackBar.open("Ein Benutzer kann nur einmal eingegeben werden.");
+          this.snackBar.open("Ein Benutzer kann nur einmal eingegeben werden.", "OK");
           return;
         }
       }
     }
     this.backend.getUserByName(players[0].value).subscribe(res1 => {
       if (!res1.user) {
-        this.snackBar.open("Der Benutzer '" + players[0].value + "' existiert nicht.");
+        this.snackBar.open("Der Benutzer '" + players[0].value + "' existiert nicht.", "OK");
         return;
       }
       this.backend.getUserByName(players[1].value).subscribe(res2 => {
         if (!res2.user) {
-          this.snackBar.open("Der Benutzer '" + players[1].value + "' existiert nicht.");
+          this.snackBar.open("Der Benutzer '" + players[1].value + "' existiert nicht.", "OK");
           return;
         }
         this.backend.getUserByName(players[2].value).subscribe(res3 => {
           if (!res3.user) {
-            this.snackBar.open("Der Benutzer '" + players[2].value + "' existiert nicht.");
+            this.snackBar.open("Der Benutzer '" + players[2].value + "' existiert nicht.", "OK");
             return;
           }
           this.backend.getUserByName(players[3].value).subscribe(res4 => {
             if (!res4.user) {
-              this.snackBar.open("Der Benutzer '" + players[3].value + "' existiert nicht.");
+              this.snackBar.open("Der Benutzer '" + players[3].value + "' existiert nicht.", "OK");
               return;
             }
             this.players = [res1.user, res2.user, res3.user, res4.user];
